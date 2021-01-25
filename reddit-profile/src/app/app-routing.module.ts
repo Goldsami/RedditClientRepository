@@ -11,6 +11,14 @@ const routes: Routes = [
     path: 'all-posts',
     loadChildren: () => import('./all-posts/all-posts.module').then(m => m.AllPostsPageModule)
   },
+  {
+    path: 'starred',
+    loadChildren: () => import('./starred/starred.module').then( m => m.StarredPageModule)
+  },
+  {
+    path: 'deleted',
+    loadChildren: () => import('./deleted/deleted.module').then( m => m.DeletedPageModule)
+  },
 ];
 
 @NgModule({

@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AllPostsPageRoutingModule } from './all-posts-routing.module';
+import { DeletedPageRoutingModule } from './deleted-routing.module';
 
-import { AllPostsPage } from './all-posts.page';
+import { DeletedPage } from './deleted.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AllPostsPageRoutingModule,
+    DeletedPageRoutingModule
   ],
-  declarations: [AllPostsPage]
+  declarations: [DeletedPage]
 })
-export class AllPostsPageModule { }
+export class DeletedPageModule {}

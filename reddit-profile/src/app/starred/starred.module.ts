@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AllPostsPageRoutingModule } from './all-posts-routing.module';
+import { StarredPageRoutingModule } from './starred-routing.module';
 
-import { AllPostsPage } from './all-posts.page';
+import { StarredPage } from './starred.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AllPostsPageRoutingModule,
+    StarredPageRoutingModule
   ],
-  declarations: [AllPostsPage]
+  declarations: [StarredPage]
 })
-export class AllPostsPageModule { }
+export class StarredPageModule {}

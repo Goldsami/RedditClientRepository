@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class AllPostsPage implements OnInit {
 
   constructor(private _redditProfileService: RedditProfileService) {
-    this._redditProfileService.getSubredditPosts().subscribe(r => { this.posts = r.data; console.debug(r) });
+    this._redditProfileService.getSubredditPosts().subscribe(r => { this.posts = r.data.children; console.debug(r) });
     this._redditProfileService.getSubredditPage().subscribe(r => { this.profile = r.data; console.debug(r) });
   }
 
@@ -18,6 +18,6 @@ export class AllPostsPage implements OnInit {
   }
 
   profile: any;
-  posts: any;
+  posts: any[];
 
 }

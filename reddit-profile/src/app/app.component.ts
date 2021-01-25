@@ -24,4 +24,23 @@ export class AppComponent {
       this.splashScreen.hide();
     });
   }
+
+  navigate: any =
+    [
+      {
+        title: "All",
+        url: "/all-posts",
+        icon: "home"
+      },
+      {
+        title: "Starred",
+        url: "/starred",
+        icon: "star-outline"
+      },
+      {
+        title: "Deleted",
+        url: "/deleted",
+        icon: "trash-outline"
+      },
+    ];
 }
