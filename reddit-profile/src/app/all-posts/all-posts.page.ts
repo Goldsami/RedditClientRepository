@@ -1,3 +1,5 @@
+import { RedditPost } from './../models/RedditPost';
+import { RedditProfile } from './../models/RedditProfile';
 import { RedditProfileService } from './../services/reddit-profile.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -15,7 +17,7 @@ export class AllPostsPage implements OnInit {
       console.debug(this.posts);
     });
 
-    this._redditProfileService.getSubredditPage().subscribe(r => {
+    this._redditProfileService.getSubredditProfile().subscribe(r => {
       this.profile = this._redditProfileService.profile;
       console.debug(this.profile);
     });
@@ -25,7 +27,7 @@ export class AllPostsPage implements OnInit {
 
   }
 
-  profile: any;
-  posts: any[];
+  profile: RedditProfile;
+  posts: RedditPost[];
 
 }
