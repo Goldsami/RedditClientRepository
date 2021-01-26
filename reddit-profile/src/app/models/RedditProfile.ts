@@ -5,7 +5,6 @@ export class RedditProfile {
     display_name: string;
     title: string;
     community_icon: string;
-    posts: RedditPost[];
 
     constructor(id: string, display_name: string, title: string, community_icon: string) {
         this.id = id;

@@ -22,7 +22,7 @@ export class RedditProfileService {
 
   getSubredditProfile(): Observable<any> {
     return this.http.get<any>(URLList.redditProfileAbout).pipe(map(res => {
-      this.profile = new RedditProfile(res.data.id, res.data.display_name, res.data.title, res.data.community_icon);
+      this.profile = new RedditProfile(res.data.name, res.data.display_name, res.data.title, res.data.community_icon);
       console.debug(this.profile);
       return this.profile;
     }));
@@ -30,7 +30,7 @@ export class RedditProfileService {
 
   getSubredditPosts(): Observable<any> {
     return this.http.get<any>(URLList.redditProfilePosts).pipe(map(res => {
-      this.posts = res.data.children.map(x => new RedditPost(x.data.id, x.data.title, x.data.url));
+      this.posts = res.data.children.map(x => new RedditPost(x.data.id, x.data.title, x.data.url, x.data.subreddit_id));
       console.debug(this.posts);
       return this.posts;
     }));
