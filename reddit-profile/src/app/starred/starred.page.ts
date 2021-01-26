@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RedditPost } from '../models/RedditPost';
 import { RedditProfile } from '../models/RedditProfile';
 import { RedditProfileService } from '../services/reddit-profile.service';
+import { URLList } from '../services/URLs';
 
 @Component({
   selector: 'app-starred',
@@ -17,18 +18,20 @@ export class StarredPage implements OnInit {
       })
     }
     else this.posts = _redditProfileService.posts;
-    if (!_redditProfileService.profile) {
-      _redditProfileService.getSubredditProfile().subscribe(r => {
-        this.profile = _redditProfileService.profile;
-      })
-    }
-    else this.profile = _redditProfileService.profile;
   }
 
   ngOnInit() {
   }
 
-  profile: RedditProfile;
   posts: RedditPost[];
+
+  open(postId: string) {
+    window.open(URLList.postUrl + postId);
+  }
+
+  unStar(post: RedditPost, event) {
+    post.isStarred = false;
+    event.stopPropagation();
+  }
 
 }

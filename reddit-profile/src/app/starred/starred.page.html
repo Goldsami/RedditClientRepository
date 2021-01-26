@@ -9,7 +9,7 @@
 
 <ion-content>
   <ng-container *ngFor="let post of posts">
-    <ion-card *ngIf="post.isStarred">
+    <ion-card *ngIf="post.isStarred" (click)="open(post.id)">
       <ion-card-header>
         <ion-card-title>{{post.title}}</ion-card-title>
       </ion-card-header>
@@ -17,6 +17,14 @@
       <ion-card-content>
         <img [src]="post.imageUrl" alt="Image cannot be loaded">
       </ion-card-content>
+
+      <ion-toolbar>
+        <ion-buttons slot="primary">
+          <ion-button (click)="unStar(post,$event);">
+            <ion-icon style="color: red;" slot="icon-only" name="star"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
     </ion-card>
 
   </ng-container>

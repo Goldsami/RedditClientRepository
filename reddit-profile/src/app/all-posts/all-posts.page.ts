@@ -19,11 +19,13 @@ export class AllPostsPage implements OnInit {
         this.posts = _redditProfileService.posts;
       })
     }
+    else this.posts = _redditProfileService.posts;
     if (!_redditProfileService.profile) {
       _redditProfileService.getSubredditProfile().subscribe(r => {
         this.profile = _redditProfileService.profile;
       })
     }
+    else this.profile = _redditProfileService.profile;
   }
 
   ngOnInit() {
@@ -34,7 +36,6 @@ export class AllPostsPage implements OnInit {
   posts: RedditPost[];
 
   open(postId: string) {
-    console.debug(postId);
     window.open(URLList.postUrl + postId);
   }
 
