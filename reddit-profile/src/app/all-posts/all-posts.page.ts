@@ -1,3 +1,4 @@
+import { URLList } from './../services/URLs';
 import { RedditPost } from './../models/RedditPost';
 import { RedditProfile } from './../models/RedditProfile';
 import { RedditProfileService } from './../services/reddit-profile.service';
@@ -29,5 +30,10 @@ export class AllPostsPage implements OnInit {
 
   profile: RedditProfile;
   posts: RedditPost[];
+
+  open(postId: string) {
+    console.debug(postId);
+    window.open(URLList.postUrl + postId);
+  }
 
 }

@@ -10,7 +10,7 @@
 <ion-content>
   <app-profile-header [redditProfile]="profile"></app-profile-header>
   <ng-container *ngFor="let post of posts">
-    <ion-card *ngIf="!post.isDeleted">
+    <ion-card *ngIf="!post.isDeleted" (click)="open(post.id)">
       <ion-card-header>
         <ion-card-title>{{post.title}}</ion-card-title>
       </ion-card-header>
