@@ -1,3 +1,4 @@
+import { ProfileHeaderComponent } from './../profile-header/profile-header.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +16,6 @@ import { DeletedPage } from './deleted.page';
     IonicModule,
     DeletedPageRoutingModule
   ],
-  declarations: [DeletedPage]
+  declarations: [DeletedPage, ProfileHeaderComponent]
 })
-export class DeletedPageModule {}
+export class DeletedPageModule { }

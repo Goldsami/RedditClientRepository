@@ -1,3 +1,4 @@
+import { ProfileHeaderComponent } from './../profile-header/profile-header.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +16,6 @@ import { AllPostsPage } from './all-posts.page';
     IonicModule,
     AllPostsPageRoutingModule,
   ],
-  declarations: [AllPostsPage]
+  declarations: [AllPostsPage, ProfileHeaderComponent]
 })
 export class AllPostsPageModule { }

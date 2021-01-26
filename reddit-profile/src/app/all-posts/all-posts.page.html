@@ -3,10 +3,22 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>all-posts</ion-title>
+    <ion-title>All posts</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  content
+  <app-profile-header [redditProfile]="profile"></app-profile-header>
+  <ng-container *ngFor="let post of posts">
+    <ion-card *ngIf="!post.isDeleted">
+      <ion-card-header>
+        <ion-card-title>{{post.title}}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <img [src]="post.imageUrl" alt="Image cannot be loaded">
+      </ion-card-content>
+    </ion-card>
+
+  </ng-container>
 </ion-content>

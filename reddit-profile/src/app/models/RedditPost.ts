@@ -1,7 +1,7 @@
 export class RedditPost {
     id: string;
     title: string;
-    url: string;
+    imageUrl: string;
     subredditId: string;
     private _isStarred: boolean;
     private _isDeleted: boolean;
@@ -9,7 +9,7 @@ export class RedditPost {
     constructor(id: string, title: string, url: string, subreddit_id: string) {
         this.id = id;
         this.title = title;
-        this.url = url;
+        this.imageUrl = url;
         this.subredditId = subreddit_id;
     }
 

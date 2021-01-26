@@ -1,3 +1,4 @@
+import { ProfileHeaderComponent } from './../profile-header/profile-header.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +16,6 @@ import { StarredPage } from './starred.page';
     IonicModule,
     StarredPageRoutingModule
   ],
-  declarations: [StarredPage]
+  declarations: [StarredPage, ProfileHeaderComponent]
 })
-export class StarredPageModule {}
+export class StarredPageModule { }

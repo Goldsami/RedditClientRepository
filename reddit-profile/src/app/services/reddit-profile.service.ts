@@ -16,10 +16,6 @@ export class RedditProfileService {
   profile: RedditProfile;
   posts: RedditPost[];
 
-  testFunc(): any {
-    return 'Service data';
-  }
-
   getSubredditProfile(): Observable<any> {
     return this.http.get<any>(URLList.redditProfileAbout).pipe(map(res => {
       this.profile = new RedditProfile(res.data.name, res.data.display_name, res.data.title, res.data.community_icon);
@@ -35,6 +31,8 @@ export class RedditProfileService {
       return this.posts;
     }));
   };
+
+
 }
 
 

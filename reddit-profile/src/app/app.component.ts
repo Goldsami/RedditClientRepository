@@ -1,3 +1,4 @@
+import { RedditProfileService } from './services/reddit-profile.service';
 import { Component } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
@@ -13,7 +14,7 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
   ) {
     this.initializeApp();
   }
@@ -29,7 +30,7 @@ export class AppComponent {
     [
       {
         title: "All",
-        url: "/all-posts",
+        url: "/all",
         icon: "home"
       },
       {
