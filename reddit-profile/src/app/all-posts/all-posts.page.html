@@ -18,6 +18,25 @@
       <ion-card-content>
         <img [src]="post.imageUrl" alt="Image cannot be loaded">
       </ion-card-content>
+      <!-- <ion-button ion-button icon-start clear item-end>
+        <ion-icon name="star-outline"></ion-icon>
+        Save
+      </ion-button>
+      <ion-button ion-button icon-start clear item-end>
+        <ion-icon name="trash-outline"></ion-icon>
+        Delete
+      </ion-button> -->
+
+      <ion-toolbar>
+        <ion-buttons slot="primary">
+          <ion-button (click)="star(post,$event);">
+            <ion-icon slot="icon-only" name="star"></ion-icon>
+          </ion-button>
+          <ion-button (click)="delete(post,$event);">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
     </ion-card>
 
   </ng-container>

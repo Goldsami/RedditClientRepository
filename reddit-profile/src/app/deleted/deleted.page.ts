@@ -11,16 +11,19 @@ import { RedditProfileService } from '../services/reddit-profile.service';
 export class DeletedPage implements OnInit {
 
   constructor(private _redditProfileService: RedditProfileService) {
+    console.debug(_redditProfileService.posts);
     if (!_redditProfileService.posts) {
       _redditProfileService.getSubredditPosts().subscribe(r => {
         this.posts = _redditProfileService.posts;
       })
     }
+    else this.posts = _redditProfileService.posts
     if (!_redditProfileService.profile) {
       _redditProfileService.getSubredditProfile().subscribe(r => {
         this.profile = _redditProfileService.profile;
       })
     }
+    else this.profile = _redditProfileService.profile;
   }
 
   ngOnInit() {
