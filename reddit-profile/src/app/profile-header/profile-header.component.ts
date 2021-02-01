@@ -1,4 +1,4 @@
-import { RedditProfile } from './../models/RedditProfile';
+import { RedditProfile } from '../models/RedditProfile';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({

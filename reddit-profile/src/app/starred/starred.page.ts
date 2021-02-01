@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Direction, StackConfig } from 'angular2-swing';
+import { Subscription } from 'rxjs';
+import { DisplayOptions } from '../models/classes';
 import { RedditPost } from '../models/RedditPost';
 import { RedditProfile } from '../models/RedditProfile';
 import { RedditProfileService } from '../services/reddit-profile.service';
@@ -9,15 +12,11 @@ import { URLList } from '../services/URLs';
   templateUrl: './starred.page.html',
   styleUrls: ['./starred.page.scss'],
 })
-export class StarredPage implements OnInit {
+export class StarredPage implements OnInit, OnDestroy {
+  private _subscriptions: Subscription[] = [];
 
   constructor(private _redditProfileService: RedditProfileService) {
-    if (!_redditProfileService.posts) {
-      _redditProfileService.getSubredditPosts().subscribe(r => {
-        this.posts = _redditProfileService.posts;
-      })
-    }
-    else this.posts = _redditProfileService.posts;
+    this._subscriptions.push(this._redditProfileService.posts.subscribe(res => this.posts = res))
   }
 
   ngOnInit() {
@@ -25,13 +24,20 @@ export class StarredPage implements OnInit {
 
   posts: RedditPost[];
 
-  open(postId: string) {
-    window.open(URLList.postUrl + postId);
+  stackConfig: StackConfig = {
+    allowedDirections: [
+      Direction.LEFT
+    ]
+  };
+
+  displayOptions: DisplayOptions = new DisplayOptions(true, false);
+
+  unSavePost(post: RedditPost) {
+    post.isStarred = false;
   }
 
-  unStar(post: RedditPost, event) {
-    post.isStarred = false;
-    event.stopPropagation();
+  ngOnDestroy() {
+    this._subscriptions.forEach(s => s.unsubscribe());
   }
 
 }

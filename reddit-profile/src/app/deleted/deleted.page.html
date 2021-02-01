@@ -1,31 +1,7 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Deleted posts</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-page-header [pageName]="'Deleted posts'"></app-page-header>
 
 <ion-content>
-  <ng-container *ngFor="let post of posts">
-    <ion-card *ngIf="post.isDeleted" (click)="open(post.id)">
-      <ion-card-header>
-        <ion-card-title>{{post.title}}</ion-card-title>
-      </ion-card-header>
-
-      <ion-card-content>
-        <img [src]=" post.imageUrl" alt="Image cannot be loaded">
-      </ion-card-content>
-
-      <ion-toolbar>
-        <ion-buttons slot="primary">
-          <ion-button (click)="restore(post,$event);">
-            <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-card>
-
-  </ng-container>
+  <app-reddit-posts-list [posts]="posts" [stackConfig]="stackConfig" [displayOptions]="displayOptions"
+    (rightSwingEvent)="restorePost($event)">
+  </app-reddit-posts-list>
 </ion-content>

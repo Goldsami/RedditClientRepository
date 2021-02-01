@@ -1,31 +1,7 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Starred posts</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-page-header [pageName]="'Starred posts'"></app-page-header>
 
 <ion-content>
-  <ng-container *ngFor="let post of posts">
-    <ion-card *ngIf="post.isStarred" (click)="open(post.id)">
-      <ion-card-header>
-        <ion-card-title>{{post.title}}</ion-card-title>
-      </ion-card-header>
-
-      <ion-card-content>
-        <img [src]="post.imageUrl" alt="Image cannot be loaded">
-      </ion-card-content>
-
-      <ion-toolbar>
-        <ion-buttons slot="primary">
-          <ion-button (click)="unStar(post,$event);">
-            <ion-icon style="color: red;" slot="icon-only" name="star"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-card>
-
-  </ng-container>
+  <app-reddit-posts-list [posts]="posts" [stackConfig]="stackConfig" [displayOptions]="displayOptions"
+    (leftSwingEvent)="unSavePost($event)">
+  </app-reddit-posts-list>
 </ion-content>

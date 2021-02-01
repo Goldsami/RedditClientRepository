@@ -1,0 +1,12 @@
+<ul swing-stack #myswing [stackConfig]="stackConfig">
+  <li *ngFor=" let post of posts; index as index"
+    [ngClass]="{'starred': post.isStarred && !displayOptions.showOnlyStarred}">
+    <ng-container *ngIf="(displayOptions.showOnlyDeleted && post.isDeleted)
+    || (displayOptions.showOnlyStarred && post.isStarred)
+    || (!displayOptions.showOnlyDeleted && !displayOptions.showOnlyStarred && !post.isDeleted)">
+      <div id="{{post.id}}" swing-card #mycards>
+        <app-reddit-post [post]="post"></app-reddit-post>
+      </div>
+    </ng-container>
+  </li>
+</ul>

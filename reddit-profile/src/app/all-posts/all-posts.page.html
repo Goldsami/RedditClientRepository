@@ -1,35 +1,8 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>All posts</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-page-header [pageName]="'All posts'"></app-page-header>
 
 <ion-content>
   <app-profile-header [redditProfile]="profile"></app-profile-header>
-  <ng-container *ngFor="let post of posts">
-    <ion-card *ngIf="!post.isDeleted" (click)="open(post.id)">
-      <ion-card-header>
-        <ion-card-title>{{post.title}}</ion-card-title>
-      </ion-card-header>
-
-      <ion-card-content>
-        <img [src]="post.imageUrl" alt="Image cannot be loaded">
-      </ion-card-content>
-
-      <ion-toolbar>
-        <ion-buttons slot="primary">
-          <ion-button (click)="star(post,$event);">
-            <ion-icon [ngStyle]="post.isStarred&&{'color':'red'}" slot="icon-only" name="star"></ion-icon>
-          </ion-button>
-          <ion-button (click)="delete(post,$event);">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-card>
-
-  </ng-container>
+  <app-reddit-posts-list [posts]="posts" [stackConfig]="stackConfig" [displayOptions]="displayOptions"
+    (rightSwingEvent)="deletePost($event)" (leftSwingEvent)="savePost($event)">
+  </app-reddit-posts-list>
 </ion-content>

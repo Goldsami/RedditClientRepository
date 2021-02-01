@@ -1,0 +1,20 @@
+<ion-card (click)="open(post.id)" [ngClass]="{'starred-card': post.isStarred}">
+  <ion-card-header>
+    <ion-card-title>{{post.title}}</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <img [src]="post.imageUrl" alt="Image cannot be loaded">
+  </ion-card-content>
+
+  <!-- <ion-toolbar>
+    <ion-buttons slot="primary">
+      <ion-button (click)="star(post,$event);">
+        <ion-icon [ngStyle]="post.isStarred&&{'color':'red'}" slot="icon-only" name="star"></ion-icon>
+      </ion-button>
+      <ion-button (click)="delete(post,$event);">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar> -->
+</ion-card>

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Direction, StackConfig } from 'angular2-swing';
+import { Subscription } from 'rxjs';
+import { DisplayOptions } from '../models/classes';
 import { RedditPost } from '../models/RedditPost';
 import { RedditProfile } from '../models/RedditProfile';
 import { RedditProfileService } from '../services/reddit-profile.service';
@@ -9,16 +12,11 @@ import { URLList } from '../services/URLs';
   templateUrl: './deleted.page.html',
   styleUrls: ['./deleted.page.scss'],
 })
-export class DeletedPage implements OnInit {
+export class DeletedPage implements OnInit, OnDestroy {
+  private _subscriptions: Subscription[] = [];
 
   constructor(private _redditProfileService: RedditProfileService) {
-    console.debug(_redditProfileService.posts);
-    if (!_redditProfileService.posts) {
-      _redditProfileService.getSubredditPosts().subscribe(r => {
-        this.posts = _redditProfileService.posts;
-      })
-    }
-    else this.posts = _redditProfileService.posts;
+    this._subscriptions.push(this._redditProfileService.posts.subscribe(res => { this.posts = res; console.debug(res) }));
   }
 
   ngOnInit() {
@@ -26,14 +24,22 @@ export class DeletedPage implements OnInit {
 
   posts: RedditPost[];
 
-  open(postId: string) {
-    console.debug(postId);
-    window.open(URLList.postUrl + postId);
+  stackConfig: StackConfig = {
+    allowedDirections: [
+      Direction.RIGHT
+    ]
+  };
+
+  displayOptions: DisplayOptions = new DisplayOptions(false, true)
+
+  restorePost(post: RedditPost) {
+    post.isDeleted = false;
   }
 
-  restore(post: RedditPost, event) {
-    post.isDeleted = false;
-    event.stopPropagation();
+  ngOnDestroy() {
+    this._subscriptions.forEach(s => s.unsubscribe());
   }
 
 }
+
+
