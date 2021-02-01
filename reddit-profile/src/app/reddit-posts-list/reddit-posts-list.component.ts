@@ -27,26 +27,22 @@ export class RedditPostsListComponent implements OnInit, OnDestroy {
   @ViewChild('myswing') swingStack: SwingStackComponent;
   @ViewChildren('mycards') swingCards: QueryList<SwingCardComponent>;
 
-  constructor() { console.debug('const') }
+  constructor() { }
 
   ngOnInit() {
-    console.debug('init')
   }
 
   ngAfterViewInit() {
     this._subscriptions.push(this.swingStack.throwoutright.subscribe(
       (event: ThrowEvent) => {
         let post = this.posts.filter(x => x.id === event.target.id)[0];
-        // this.rightSwingEvent.emit(post);
+        this.rightSwingEvent.emit(post);
       }))
 
     this._subscriptions.push(this.swingStack.throwoutleft.subscribe(
       (event: ThrowEvent) => {
         let post = this.posts.filter(x => x.id === event.target.id)[0];
         this.leftSwingEvent.emit(post);
-        console.debug(event);
-        this.swingCards.forEach(c => console.debug(c));
-        event.target.translate = false;
       }))
   }
 
