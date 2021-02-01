@@ -1,3 +1,4 @@
+import { TstPipe } from './../services/pipes';
 import { ProfileHeaderComponent } from '../profile-header/profile-header.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -9,7 +10,6 @@ import { AllPostsPageRoutingModule } from './all-posts-routing.module';
 
 import { AllPostsPage } from './all-posts.page';
 import { RedditPostComponent } from '../reddit-post/reddit-post.component';
-import { SwingModule } from 'angular2-swing';
 import { RedditPostsListComponent } from '../reddit-posts-list/reddit-posts-list.component';
 import { PageHeaderComponent } from '../page-header/page-header.component';
 
@@ -18,15 +18,15 @@ import { PageHeaderComponent } from '../page-header/page-header.component';
     CommonModule,
     FormsModule,
     IonicModule,
-    AllPostsPageRoutingModule,
-    SwingModule
+    AllPostsPageRoutingModule
   ],
   declarations: [
     AllPostsPage,
     ProfileHeaderComponent,
     RedditPostComponent,
     RedditPostsListComponent,
-    PageHeaderComponent
+    PageHeaderComponent,
+    TstPipe
   ],
 })
 export class AllPostsPageModule { }

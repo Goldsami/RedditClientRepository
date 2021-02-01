@@ -1,7 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Direction, StackConfig } from 'angular2-swing';
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Subscription } from 'rxjs';
-import { DisplayOptions } from '../models/classes';
 import { RedditPost } from '../models/RedditPost';
 import { RedditProfile } from '../models/RedditProfile';
 import { RedditProfileService } from '../services/reddit-profile.service';
@@ -24,16 +22,8 @@ export class DeletedPage implements OnInit, OnDestroy {
 
   posts: RedditPost[];
 
-  stackConfig: StackConfig = {
-    allowedDirections: [
-      Direction.RIGHT
-    ]
-  };
-
-  displayOptions: DisplayOptions = new DisplayOptions(false, true)
-
   restorePost(post: RedditPost) {
-    post.isDeleted = false;
+    // post.isDeleted = false;
   }
 
   ngOnDestroy() {

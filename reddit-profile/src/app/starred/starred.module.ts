@@ -11,7 +11,6 @@ import { StarredPage } from './starred.page';
 import { RedditPostsListComponent } from '../reddit-posts-list/reddit-posts-list.component';
 import { RedditPostComponent } from '../reddit-post/reddit-post.component';
 import { ProfileHeaderComponent } from '../profile-header/profile-header.component';
-import { SwingModule } from 'angular2-swing';
 import { PageHeaderComponent } from '../page-header/page-header.component';
 
 @NgModule({
@@ -19,8 +18,7 @@ import { PageHeaderComponent } from '../page-header/page-header.component';
     CommonModule,
     FormsModule,
     IonicModule,
-    StarredPageRoutingModule,
-    SwingModule
+    StarredPageRoutingModule
   ],
   declarations: [
     StarredPage,

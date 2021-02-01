@@ -47,7 +47,9 @@ export class RedditProfileService implements OnDestroy {
       this.http.get<any>(URLList.redditProfilePosts.replace('$profile_name', name)).subscribe(res => {
         console.debug('GET POSTS');
         this._posts.next(
-          res.data.children.map(x => new RedditPost(x.data.id, x.data.title, x.data.url, x.data.subreddit_id)));
+          res.data.children.map(x =>
+            new RedditPost(x.data.id, x.data.title, x.data.url, x.data.subreddit_id,
+              x.data.author, x.data.selftext, x.data.num_comments, x.data.created_utc, x.data.score)));
       }))
   };
 

@@ -1,9 +1,7 @@
 import { RedditPost } from './../models/RedditPost';
-import { DisplayOptions } from '../models/classes';
 import { RedditProfile } from '../models/RedditProfile';
 import { RedditProfileService } from '../services/reddit-profile.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Direction, StackConfig } from 'angular2-swing';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -27,30 +25,23 @@ export class AllPostsPage implements OnInit, OnDestroy {
   profile: RedditProfile;
   posts: RedditPost[];
 
-  stackConfig: StackConfig = {
-    allowedDirections: [
-      Direction.LEFT,
-      Direction.RIGHT
-    ]
-  };
-
-  displayOptions: DisplayOptions = new DisplayOptions(false, false);
-
   deletePost(post: RedditPost) {
-    console.debug(post);
-    if (post.isStarred) {
-      this._redditProfileService.presentToast('You can\'t delete starred post.', 'danger');
-      return;
-    }
-    post.isDeleted = true;
+    // console.debug(post);
+    // if (post.isStarred) {
+    //   this._redditProfileService.presentToast('You can\'t delete starred post.', 'danger');
+    //   return;
+    // }
+    // let postCopy = new RedditPost(post.id, post.title, post.imageUrl, post.subredditId);
+    // postCopy.isDeleted = true;
+    // this.posts.splice(this.posts.indexOf(post), 1, postCopy);
   }
 
   savePost(post: RedditPost) {
-    if (post.isStarred) {
-      this._redditProfileService.presentToast('Post is already starred.', 'warning');
-      return;
-    }
-    post.isStarred = true;
+    // if (post.isStarred) {
+    //   this._redditProfileService.presentToast('Post is already starred.', 'warning');
+    //   return;
+    // }
+    // post.isStarred = true;
   }
 
   ngOnDestroy() {

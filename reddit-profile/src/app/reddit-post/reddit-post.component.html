@@ -1,20 +1,14 @@
-<ion-card (click)="open(post.id)" [ngClass]="{'starred-card': post.isStarred}">
+<ion-card (click)="open(post.id)">
   <ion-card-header>
+    <span>Posted by {{post.author}} at {{post.creationDateTime}}</span>
     <ion-card-title>{{post.title}}</ion-card-title>
   </ion-card-header>
 
   <ion-card-content>
-    <img [src]="post.imageUrl" alt="Image cannot be loaded">
+    <img *ngIf="post.imageUrl" [src]="post.imageUrl" alt="Image cannot be loaded">
+    <div class="icons">
+      <ion-icon name="chatbox-outline"></ion-icon>{{post.num_comments}}
+      <ion-icon name="heart-outline"></ion-icon>{{post.score}}
+    </div>
   </ion-card-content>
-
-  <!-- <ion-toolbar>
-    <ion-buttons slot="primary">
-      <ion-button (click)="star(post,$event);">
-        <ion-icon [ngStyle]="post.isStarred&&{'color':'red'}" slot="icon-only" name="star"></ion-icon>
-      </ion-button>
-      <ion-button (click)="delete(post,$event);">
-        <ion-icon slot="icon-only" name="trash"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar> -->
 </ion-card>

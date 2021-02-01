@@ -1,11 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Direction, StackConfig } from 'angular2-swing';
 import { Subscription } from 'rxjs';
-import { DisplayOptions } from '../models/classes';
 import { RedditPost } from '../models/RedditPost';
-import { RedditProfile } from '../models/RedditProfile';
 import { RedditProfileService } from '../services/reddit-profile.service';
-import { URLList } from '../services/URLs';
 
 @Component({
   selector: 'app-starred',
@@ -24,20 +20,10 @@ export class StarredPage implements OnInit, OnDestroy {
 
   posts: RedditPost[];
 
-  stackConfig: StackConfig = {
-    allowedDirections: [
-      Direction.LEFT
-    ]
-  };
-
-  displayOptions: DisplayOptions = new DisplayOptions(true, false);
-
   unSavePost(post: RedditPost) {
-    let postCopy = new RedditPost(post.id, post.title, post.imageUrl, post.subredditId);
-    postCopy.isStarred = false;
-    // post = new RedditPost(postCopy.id, postCopy.title, postCopy.imageUrl, postCopy.subredditId);
-    // post.isStarred = false;
-    this.posts.splice(this.posts.indexOf(post), 1, postCopy);
+    // let postCopy = new RedditPost(post.id, post.title, post.imageUrl, post.subredditId);
+    // postCopy.isStarred = false;
+    // this.posts.splice(this.posts.indexOf(post), 1, postCopy);
   }
 
   ngOnDestroy() {
