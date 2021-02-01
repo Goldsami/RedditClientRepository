@@ -1,7 +1,7 @@
 import { RedditProfileService } from '../services/reddit-profile.service';
 import { RedditPost } from '../models/RedditPost';
 import { Component, Input, OnInit } from '@angular/core';
-import { URLList } from '../services/URLs';
+import { URLList } from '../services/constants';
 
 @Component({
   selector: 'app-reddit-post',

@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { RedditPost } from '../models/RedditPost';
 import { RedditProfile } from '../models/RedditProfile';
 import { RedditProfileService } from '../services/reddit-profile.service';
-import { URLList } from '../services/URLs';
+import { URLList } from '../services/constants';
 
 @Component({
   selector: 'app-deleted',

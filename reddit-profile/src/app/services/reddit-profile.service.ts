@@ -5,7 +5,7 @@ import { RedditProfile } from './../models/RedditProfile';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { URLList } from './URLs';
+import { LocalStorageKeys, URLList } from './constants';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -19,14 +19,14 @@ export class RedditProfileService implements OnDestroy {
 
   constructor(private http: HttpClient, private _toastController: ToastController) {
     console.debug('CONSTRUCTOR');
-    this._subredditName = localStorage.getItem('subredditName') || 'random';
+    this._subredditName = localStorage.getItem(LocalStorageKeys.subredditName) || 'random';
     console.debug(this._subredditName);
     this.getSubredditProfile(this._subredditName);
     this._subscriptions.push(
       this._profile.subscribe(x => {
         if (x) {
           this._subredditName = x.displayName;
-          localStorage.setItem('subredditName', this._subredditName);
+          localStorage.setItem(LocalStorageKeys.subredditName, this._subredditName);
           this.getSubredditPosts(this._subredditName);
         };
       }));
@@ -61,7 +61,7 @@ export class RedditProfileService implements OnDestroy {
   }
 
   refreshPage() {
-    localStorage.clear();
+    localStorage.removeItem(LocalStorageKeys.subredditName);
     window.location.reload();
   }
 

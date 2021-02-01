@@ -7,3 +7,7 @@ export class URLList {
     static redditProfilePosts = URLList.corseRedditUrl + "r/$profile_name.json";
     static postUrl = URLList.baseRedditUrl + "r/$profile_name/comments/";
 }
+
+export class LocalStorageKeys {
+    static subredditName = 'subredditName';
+}
