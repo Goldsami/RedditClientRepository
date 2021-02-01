@@ -1,3 +1,4 @@
+import { RedditProfileService } from './../services/reddit-profile.service';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -7,14 +8,14 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PageHeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _redditProfileService: RedditProfileService) { }
 
   ngOnInit() { }
 
   @Input() pageName: string;
 
   refresh() {
-    window.location.reload();
+    this._redditProfileService.refreshPage();
   }
 
 }

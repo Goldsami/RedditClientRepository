@@ -19,11 +19,14 @@ export class RedditProfileService implements OnDestroy {
 
   constructor(private http: HttpClient, private _toastController: ToastController) {
     console.debug('CONSTRUCTOR');
-    this.getSubredditProfile('random');
+    this._subredditName = localStorage.getItem('subredditName') || 'random';
+    console.debug(this._subredditName);
+    this.getSubredditProfile(this._subredditName);
     this._subscriptions.push(
       this._profile.subscribe(x => {
         if (x) {
           this._subredditName = x.displayName;
+          localStorage.setItem('subredditName', this._subredditName);
           this.getSubredditPosts(this._subredditName);
         };
       }));
@@ -55,6 +58,11 @@ export class RedditProfileService implements OnDestroy {
 
   openPostInBrowser(postId: string) {
     window.open(URLList.postUrl.replace('$profile_name', this._subredditName) + postId);
+  }
+
+  refreshPage() {
+    localStorage.clear();
+    window.location.reload();
   }
 
   async presentToast(message: string, color: string) {
