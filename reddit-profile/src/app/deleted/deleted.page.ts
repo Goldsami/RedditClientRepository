@@ -8,7 +8,7 @@ import { RedditProfileService } from '../services/reddit-profile.service';
   selector: 'app-deleted',
   templateUrl: './deleted.page.html',
   styleUrls: ['./deleted.page.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeletedPage implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];

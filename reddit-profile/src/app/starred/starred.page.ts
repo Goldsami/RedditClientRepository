@@ -7,7 +7,7 @@ import { RedditProfileService } from '../services/reddit-profile.service';
   selector: 'app-starred',
   templateUrl: './starred.page.html',
   styleUrls: ['./starred.page.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StarredPage implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
