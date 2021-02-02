@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy } from '@a
   selector: 'app-reddit-post',
   templateUrl: './reddit-post.component.html',
   styleUrls: ['./reddit-post.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RedditPostComponent implements OnInit, OnDestroy {
   // private _subscriptions: Subscription[] = []
@@ -22,7 +22,7 @@ export class RedditPostComponent implements OnInit, OnDestroy {
 
   @Input() post: RedditPost;
 
-  @Input() savedPostsIds: string[];
+  @Input() savedPostsIds: string[] = [];
 
   open(postId: string) {
     this._redditProfileService.openPostInBrowser(postId);

@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
   selector: 'app-profile-header',
   templateUrl: './profile-header.component.html',
   styleUrls: ['./profile-header.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileHeaderComponent implements OnInit {
 

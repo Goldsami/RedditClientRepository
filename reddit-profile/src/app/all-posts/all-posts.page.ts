@@ -30,6 +30,11 @@ export class AllPostsPage implements OnInit, OnDestroy {
   savedPostsIds: string[];
   deletedPostsIds: string[];
 
+  // profile: Observable<RedditProfile>;
+  // posts: Observable<RedditPost[]>;
+  // savedPostsIds: Observable<string[]>;
+  // deletedPostsIds: Observable<string[]>;
+
   deletePost(postId: string) {
     console.debug('delete');
     if (this.savedPostsIds.includes(postId)) {
@@ -37,6 +42,15 @@ export class AllPostsPage implements OnInit, OnDestroy {
       return;
     }
     else this._redditProfileService.deletePost(postId);
+
+    // this.savedPostsIds.subscribe(ids => {
+    //   if (ids.includes(postId)) {
+    //     this._redditProfileService.presentToast('Starred post cannot be deleted', 'warning');
+    //     return;
+    //   }
+    //   else this._redditProfileService.deletePost(postId);
+    // })
+
   }
 
   savePost(postId: string) {
@@ -44,7 +58,7 @@ export class AllPostsPage implements OnInit, OnDestroy {
       this._redditProfileService.presentToast('Post is starred already', 'warning');
       return;
     }
-    this._redditProfileService.savePost(postId);
+    else this._redditProfileService.savePost(postId);
   }
 
   ngOnDestroy() {

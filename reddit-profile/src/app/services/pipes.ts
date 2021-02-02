@@ -5,6 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class GetNotDeletedPipe implements PipeTransform {
     transform(value: RedditPost[], deletedPostsIds: string[]): RedditPost[] {
         console.debug('GetNotDeleted');
+        if (!value) return [];
         return value.filter(x => !deletedPostsIds.includes(x.id))
     }
 }
@@ -13,6 +14,7 @@ export class GetNotDeletedPipe implements PipeTransform {
 export class GetStarredPipe implements PipeTransform {
     transform(value: RedditPost[], starredPostsIds: string[]): RedditPost[] {
         console.debug('GetStarred');
+        if (!value) return [];
         return value.filter(x => starredPostsIds.includes(x.id))
     }
 }
@@ -21,6 +23,7 @@ export class GetStarredPipe implements PipeTransform {
 export class GetDeletedPipe implements PipeTransform {
     transform(value: RedditPost[], deletedPostsIds: string[]): RedditPost[] {
         console.debug('GetDeleted');
+        if (!value) return [];
         return value.filter(x => deletedPostsIds.includes(x.id))
     }
 }
