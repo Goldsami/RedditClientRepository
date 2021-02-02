@@ -1,6 +1,7 @@
 <app-page-header [pageName]="'Starred posts'"></app-page-header>
 
 <ion-content>
-  <app-reddit-posts-list [posts]="posts | getStarred: savedPostsIds" (leftSwingEvent)="unSavePost($event)">
+  <app-reddit-posts-list [posts]="posts | getStarred: savedPostsIds" [savedPostsIds]="savedPostsIds"
+    (leftSwingEvent)="unSavePost($event)">
   </app-reddit-posts-list>
 </ion-content>

@@ -1,20 +1,5 @@
 <div class="item-container" *ngFor=" let post of posts; index as index" #container>
   <div id="{{post.id}}">
-    <app-reddit-post [post]="post"></app-reddit-post>
+    <app-reddit-post [post]="post" [savedPostsIds]="savedPostsIds"></app-reddit-post>
   </div>
 </div>
-
-<!-- <ng-container *ngIf="posts.length">
-  <div class="item-container" *ngFor="let post of posts" #container>
-    <ion-item>
-      <ion-label>
-        Dummy item {{itemContainer.length}}
-      </ion-label>
-    </ion-item>
-    <div class="icon-row">
-      <div class="icon-container">
-        <ion-icon name="trash"></ion-icon>
-      </div>
-    </div>
-  </div>
-</ng-container> -->

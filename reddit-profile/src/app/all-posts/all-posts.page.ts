@@ -40,6 +40,10 @@ export class AllPostsPage implements OnInit, OnDestroy {
   }
 
   savePost(postId: string) {
+    if (this.savedPostsIds.includes(postId)) {
+      this._redditProfileService.presentToast('Post is starred already', 'warning');
+      return;
+    }
     this._redditProfileService.savePost(postId);
   }
 

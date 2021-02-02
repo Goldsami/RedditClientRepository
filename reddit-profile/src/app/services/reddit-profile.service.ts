@@ -75,33 +75,33 @@ export class RedditProfileService implements OnDestroy {
 
   savePost(postId: string) {
     console.debug('savePost');
-    this.savedPostsIds.subscribe(x =>
+    this._subscriptions.push(this.savedPostsIds.subscribe(x =>
       localStorage.setItem(LocalStorageKeys.savedPostsIds, x.concat(postId).join(','))
-    )
+    ));
     this.getSavedPostsIds();
   }
 
   deletePost(postId: string) {
     console.debug('deletePost');
-    this.deletedPostsIds.subscribe(x =>
+    this._subscriptions.push(this.deletedPostsIds.subscribe(x =>
       localStorage.setItem(LocalStorageKeys.deletedPostsIds, x.concat(postId).join(','))
-    )
+    ));
     this.getDeletedPostsIds();
   }
 
   removePostFromSaved(postId: string) {
     console.debug('unSavePost');
-    this.savedPostsIds.subscribe(x => {
+    this._subscriptions.push(this.savedPostsIds.subscribe(x => {
       localStorage.setItem(LocalStorageKeys.savedPostsIds, x.filter(i => i !== postId).join(','));
-    })
+    }));
     this.getSavedPostsIds();
   }
 
   removePostFromDeleted(postId: string) {
     console.debug('restorePost');
-    this.deletedPostsIds.subscribe(x => {
+    this._subscriptions.push(this.deletedPostsIds.subscribe(x => {
       localStorage.setItem(LocalStorageKeys.deletedPostsIds, x.filter(i => i !== postId).join(','));
-    })
+    }));
     this.getDeletedPostsIds();
   }
 
@@ -110,7 +110,8 @@ export class RedditProfileService implements OnDestroy {
   }
 
   refreshPage() {
-    localStorage.removeItem(LocalStorageKeys.subredditName);
+    // localStorage.removeItem(LocalStorageKeys.subredditName);
+    localStorage.clear();
     window.location.reload();
   }
 

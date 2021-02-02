@@ -21,16 +21,9 @@ export class RedditPostsListComponent implements OnInit, OnDestroy, DoCheck {
 
   ngOnInit() {
   }
-  private _posts: RedditPost[];
-  @Input()
-  set posts(value: RedditPost[]) {
-    this._posts = value;
-    console.debug(this.itemContainer?.toArray());
-  }
+  @Input() posts: RedditPost[];
 
-  get posts() {
-    return this._posts;
-  }
+  @Input() savedPostsIds: string[];
 
   @Output() rightSwingEvent = new EventEmitter<string>();
 

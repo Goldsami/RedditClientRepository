@@ -2,7 +2,7 @@
 
 <ion-content>
   <app-profile-header [redditProfile]="profile"></app-profile-header>
-  <app-reddit-posts-list [posts]="posts | getNotDeleted: deletedPostsIds" (rightSwingEvent)="deletePost($event)"
-    (leftSwingEvent)="savePost($event)">
+  <app-reddit-posts-list [posts]="posts | getNotDeleted: deletedPostsIds" [savedPostsIds]="savedPostsIds"
+    (rightSwingEvent)="deletePost($event)" (leftSwingEvent)="savePost($event)">
   </app-reddit-posts-list>
 </ion-content>
