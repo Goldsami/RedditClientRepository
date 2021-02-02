@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 import { RedditPost } from '../models/RedditPost';
 import { RedditProfile } from '../models/RedditProfile';
 import { RedditProfileService } from '../services/reddit-profile.service';
-import { URLList } from '../services/constants';
 
 @Component({
   selector: 'app-deleted',
@@ -25,8 +24,8 @@ export class DeletedPage implements OnInit, OnDestroy {
   posts: RedditPost[];
   deletedPostsIds: string[];
 
-  restorePost(post: RedditPost) {
-    this._redditProfileService.removePostFromDeleted(post.id);
+  restorePost(postId: string) {
+    this._redditProfileService.removePostFromDeleted(postId);
   }
 
   ngOnDestroy() {

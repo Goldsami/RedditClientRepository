@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { SwipeParams } from '../models/classes';
 import { RedditPost } from '../models/RedditPost';
 import { RedditProfileService } from '../services/reddit-profile.service';
 
@@ -23,8 +24,10 @@ export class StarredPage implements OnInit, OnDestroy {
   posts: RedditPost[];
   savedPostsIds: string[];
 
-  unSavePost(post: RedditPost) {
-    this._redditProfileService.removePostFromSaved(post.id);
+  swipeParams: SwipeParams = new SwipeParams(true, false);
+
+  unSavePost(postId: string) {
+    this._redditProfileService.removePostFromSaved(postId);
   }
 
   ngOnDestroy() {

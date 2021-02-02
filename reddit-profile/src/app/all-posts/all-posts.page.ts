@@ -30,12 +30,17 @@ export class AllPostsPage implements OnInit, OnDestroy {
   savedPostsIds: string[];
   deletedPostsIds: string[];
 
-  deletePost(post: RedditPost) {
-    this._redditProfileService.deletePost(post.id);
+  deletePost(postId: string) {
+    console.debug('delete');
+    if (this.savedPostsIds.includes(postId)) {
+      this._redditProfileService.presentToast('Starred post cannot be deleted', 'warning');
+      return;
+    }
+    else this._redditProfileService.deletePost(postId);
   }
 
-  savePost(post: RedditPost) {
-    this._redditProfileService.savePost(post.id);
+  savePost(postId: string) {
+    this._redditProfileService.savePost(postId);
   }
 
   ngOnDestroy() {
