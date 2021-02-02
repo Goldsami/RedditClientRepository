@@ -6,9 +6,9 @@
 
   <ion-card-content>
     <img *ngIf="post.imageUrl" [src]="post.imageUrl" alt="Image cannot be loaded" onerror="this.style.display='none'">
-    <div class="icons">
-      <ion-icon name="chatbox-outline"></ion-icon>{{post.num_comments}}
-      <ion-icon name="heart-outline"></ion-icon>{{post.score}}
+    <div class="footer-icons">
+      <ion-icon name="chatbox-outline"></ion-icon><span>{{post.num_comments}}</span>
+      <ion-icon name="heart-outline"></ion-icon><span>{{post.score}}</span>
     </div>
   </ion-card-content>
 </ion-card>

@@ -26,22 +26,11 @@ export class AllPostsPage implements OnInit, OnDestroy {
   posts: RedditPost[];
 
   deletePost(post: RedditPost) {
-    // console.debug(post);
-    // if (post.isStarred) {
-    //   this._redditProfileService.presentToast('You can\'t delete starred post.', 'danger');
-    //   return;
-    // }
-    // let postCopy = new RedditPost(post.id, post.title, post.imageUrl, post.subredditId);
-    // postCopy.isDeleted = true;
-    // this.posts.splice(this.posts.indexOf(post), 1, postCopy);
+    this._redditProfileService.deletePost(post.id);
   }
 
   savePost(post: RedditPost) {
-    // if (post.isStarred) {
-    //   this._redditProfileService.presentToast('Post is already starred.', 'warning');
-    //   return;
-    // }
-    // post.isStarred = true;
+    this._redditProfileService.savePost(post.id);
   }
 
   ngOnDestroy() {

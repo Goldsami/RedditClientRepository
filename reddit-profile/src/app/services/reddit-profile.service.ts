@@ -85,6 +85,18 @@ export class RedditProfileService implements OnDestroy {
     )
   }
 
+  removePostFromSaved(postId: string) {
+    this.savedPostsIds.subscribe(x => {
+      localStorage.setItem(LocalStorageKeys.savedPostsIds, x.filter(i => i !== postId).join(','));
+    })
+  }
+
+  removePostFromDeleted(postId: string) {
+    this.deletedPostsIds.subscribe(x => {
+      localStorage.setItem(LocalStorageKeys.deletedPostsIds, x.filter(i => i !== postId).join(','));
+    })
+  }
+
   openPostInBrowser(postId: string) {
     window.open(URLList.postUrl.replace('$profile_name', this._subredditName) + postId);
   }

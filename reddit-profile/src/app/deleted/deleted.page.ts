@@ -23,7 +23,7 @@ export class DeletedPage implements OnInit, OnDestroy {
   posts: RedditPost[];
 
   restorePost(post: RedditPost) {
-    // post.isDeleted = false;
+    this._redditProfileService.removePostFromDeleted(post.id);
   }
 
   ngOnDestroy() {

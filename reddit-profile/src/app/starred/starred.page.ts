@@ -21,9 +21,7 @@ export class StarredPage implements OnInit, OnDestroy {
   posts: RedditPost[];
 
   unSavePost(post: RedditPost) {
-    // let postCopy = new RedditPost(post.id, post.title, post.imageUrl, post.subredditId);
-    // postCopy.isStarred = false;
-    // this.posts.splice(this.posts.indexOf(post), 1, postCopy);
+    this._redditProfileService.removePostFromSaved(post.id);
   }
 
   ngOnDestroy() {
