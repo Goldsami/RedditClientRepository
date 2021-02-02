@@ -1,4 +1,4 @@
-import { TstPipe } from './../services/pipes';
+import { GetNotDeletedPipe } from './../services/pipes';
 import { ProfileHeaderComponent } from '../profile-header/profile-header.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -26,7 +26,7 @@ import { PageHeaderComponent } from '../page-header/page-header.component';
     RedditPostComponent,
     RedditPostsListComponent,
     PageHeaderComponent,
-    TstPipe
+    GetNotDeletedPipe
   ],
 })
 export class AllPostsPageModule { }

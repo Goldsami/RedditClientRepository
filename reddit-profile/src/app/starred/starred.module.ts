@@ -1,3 +1,4 @@
+import { GetStarredPipe } from './../services/pipes';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -25,7 +26,8 @@ import { PageHeaderComponent } from '../page-header/page-header.component';
     ProfileHeaderComponent,
     RedditPostComponent,
     RedditPostsListComponent,
-    PageHeaderComponent
+    PageHeaderComponent,
+    GetStarredPipe
   ]
 })
 export class StarredPageModule { }

@@ -1,6 +1,6 @@
 <app-page-header [pageName]="'Deleted posts'"></app-page-header>
 
 <ion-content>
-  <app-reddit-posts-list [posts]="posts" (rightSwingEvent)="restorePost($event)">
+  <app-reddit-posts-list [posts]="posts | getDeleted : deletedPostsIds" (rightSwingEvent)="restorePost($event)">
   </app-reddit-posts-list>
 </ion-content>
