@@ -31,7 +31,7 @@ export class RedditPostsListComponent implements OnInit, OnDestroy, DoCheck {
   @Output() leftSwingEvent = new EventEmitter<string>();
 
   ngDoCheck() {
-    // console.debug('ngDoCHeck');
+    this.cdr.detectChanges();
     this.setUpGesture();
   }
 
