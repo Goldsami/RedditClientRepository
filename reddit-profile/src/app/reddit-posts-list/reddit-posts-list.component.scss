@@ -1,0 +1,14 @@
+ion-list {
+    background-color: unset;
+
+    ion-item-sliding {
+        ion-item-option {
+            background-color: unset;
+            border-bottom: none;
+
+            ion-icon {
+                font-size: 26px;
+            }
+        }
+    }
+}

@@ -2,6 +2,6 @@
 
 <ion-content>
   <app-reddit-posts-list [posts]="posts | async | getStarred: (savedPostsIds | async)"
-    [savedPostsIds]="savedPostsIds | async" (leftSwingEvent)="unSavePost($event)">
+    [savedPostsIds]="savedPostsIds | async" [swipeParams]="swipeParams" (leftSwingEvent)="unSavePost($event)">
   </app-reddit-posts-list>
 </ion-content>

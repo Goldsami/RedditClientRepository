@@ -1,5 +1,29 @@
-<div class="item-container" *ngFor=" let post of posts; index as index" #container>
+<!-- <div class="item-container" *ngFor=" let post of posts; index as index" #container>
   <div id="{{post.id}}">
     <app-reddit-post [post]="post" [savedPostsIds]="savedPostsIds"></app-reddit-post>
   </div>
-</div>
+</div> -->
+<ion-list>
+
+  <!-- Sliding item with expandable options on both sides -->
+  <ion-item-sliding *ngFor=" let post of posts; index as index" #slidingItem
+    (ionSwipe)="onSwipe($event, post, slidingItem)">
+    <ion-item-options side="start">
+      <ion-item-option (click)="swipeRight(post, slidingItem)" *ngIf="swipeParams.swipeRigth">
+        <ion-icon name="{{swipeParams.swipeRigthIconName}}"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+
+    <ion-item>
+      <app-reddit-post [post]="post" [savedPostsIds]="savedPostsIds"></app-reddit-post>
+    </ion-item>
+
+    <ion-item-options side="end">
+      <ion-item-option (click)="swipeLeft(post, slidingItem)" *ngIf="swipeParams.swipeLeft">
+        <ion-icon name="{{swipeParams.swipeLeftIconName}}"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
+
+</ion-list>

@@ -1,7 +1,7 @@
 <app-page-header [pageName]="'Deleted posts'"></app-page-header>
 
 <ion-content>
-  <app-reddit-posts-list [posts]="posts | async | getDeleted : (deletedPostsIds | async)"
+  <app-reddit-posts-list [posts]="posts | async | getDeleted : (deletedPostsIds | async)" [swipeParams]="swipeParams"
     (rightSwingEvent)="restorePost($event)">
   </app-reddit-posts-list>
 </ion-content>

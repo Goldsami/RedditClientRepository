@@ -1,3 +1,4 @@
+import { SwipeParams } from './../models/classes';
 import { RedditPost } from './../models/RedditPost';
 import { RedditProfile } from '../models/RedditProfile';
 import { RedditProfileService } from '../services/reddit-profile.service';
@@ -29,6 +30,8 @@ export class AllPostsPage implements OnInit, OnDestroy {
   posts: Observable<RedditPost[]>;
   savedPostsIds: Observable<string[]>;
   deletedPostsIds: Observable<string[]>;
+
+  swipeParams: SwipeParams = new SwipeParams(true, true, 'star', 'trash');
 
   deletePost(postId: string) {
     this._subscriptions.push(

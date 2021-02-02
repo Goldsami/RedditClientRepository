@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core'
 import { Subscription, Observable } from 'rxjs';
+import { SwipeParams } from '../models/classes';
 import { RedditPost } from '../models/RedditPost';
 import { RedditProfile } from '../models/RedditProfile';
 import { RedditProfileService } from '../services/reddit-profile.service';
@@ -23,6 +24,8 @@ export class DeletedPage implements OnInit, OnDestroy {
 
   posts: Observable<RedditPost[]>;
   deletedPostsIds: Observable<string[]>;
+
+  swipeParams: SwipeParams = new SwipeParams(false, true, '', 'trash-outline');
 
   restorePost(postId: string) {
     this._redditProfileService.removePostFromDeleted(postId);

@@ -1,3 +1,4 @@
+import { SwipeParams } from './../models/classes';
 import { RedditPost } from '../models/RedditPost';
 import {
   AfterViewInit, Component, OnInit, Input, Output, EventEmitter, OnDestroy,
@@ -12,12 +13,10 @@ import { AnimationController, DomController, GestureController } from '@ionic/an
   styleUrls: ['./reddit-posts-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RedditPostsListComponent implements OnInit, OnDestroy, DoCheck {
+export class RedditPostsListComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
-  @ViewChildren('container', { read: ElementRef }) itemContainer: QueryList<ElementRef>;
 
-  constructor(private _gestureCtrl: GestureController, private _animationCtrl: AnimationController,
-    private _domCtrl: DomController, private cdr: ChangeDetectorRef, private ngZone: NgZone) { }
+  constructor() { }
 
   ngOnInit() {
   }
@@ -26,92 +25,35 @@ export class RedditPostsListComponent implements OnInit, OnDestroy, DoCheck {
 
   @Input() savedPostsIds: string[];
 
+  @Input() swipeParams: SwipeParams;
+
   @Output() rightSwingEvent = new EventEmitter<string>();
 
   @Output() leftSwingEvent = new EventEmitter<string>();
 
-  ngDoCheck() {
-    this.cdr.detectChanges();
-    this.setUpGesture();
+  onSwipe(event, post: RedditPost, slidingItem) {
+    switch (event.detail.side) {
+      case 'end':
+        this.swipeLeft(post, slidingItem);
+        break;
+      case 'start':
+        this.swipeRight(post, slidingItem);
+        break;
+    }
   }
 
-  setUpGesture() {
-    console.debug('setUpGest');
-    console.debug(this.posts.length);
-    if (!this.itemContainer) return;
-    const windowWidth = window.innerWidth;
-    const containerArray = this.itemContainer.toArray();
+  swipeLeft(post: RedditPost, slidingItem) {
+    slidingItem.close();
+    this.leftSwingEvent.emit(post.id)
+  }
 
-    for (let i = 0; i < containerArray.length; i++) {
-      const containerElement = containerArray[i].nativeElement;
+  swipeRight(post: RedditPost, slidingItem) {
+    slidingItem.close();
+    this.rightSwingEvent.emit(post.id)
+  }
 
-      // We know the ion-item is the first child of teachhe container element
-      const itemElement = containerElement.childNodes[0];
-
-      const deleteAnimation = this._animationCtrl.create()
-        .addElement(containerElement)
-        .duration(200)
-        .easing('ease-out')
-        .fromTo('height', '48px', '0');
-
-      const swipeGesture = this._gestureCtrl.create({
-        el: itemElement,
-        threshold: 15,
-        direction: 'x',
-        gestureName: 'swipe-delete',
-        onMove: ev => this.ngZone.run(() => {
-          const currentX = ev.deltaX;
-          console.debug('MOVE');
-          this._domCtrl.write(() => {
-            // Make sure the item is above the other elements
-            itemElement.style.zIndex = 2;
-            // Reposition the item
-            itemElement.style.transform = `translateX(${currentX}px)`;
-          });
-        }),
-        onEnd: ev => this.ngZone.run(() => {
-          console.debug('On End');
-          itemElement.style.transition = '0.2s ease-out';
-
-          // Fly out the element if we cross the threshold of 150px
-          if (ev.deltaX > 150) {
-            console.debug('RIGHT');
-            // this._domCtrl.write(() => {
-            //   itemElement.style.transform = `translate3d(${windowWidth}px, 0, 0)`;
-            // });
-            // deleteAnimation.play();
-
-            // deleteAnimation.onFinish(async (event) => {
-            //   console.debug('delete animation');
-            // });
-
-            this._domCtrl.write(() => {
-              itemElement.style.transform = '';
-            });
-
-            this.rightSwingEvent.emit(itemElement.id)
-          }
-          else if (ev.deltaX < -150) {
-            console.debug('LEFT');
-            console.debug(itemElement.id);
-            this._domCtrl.write(() => {
-              itemElement.style.transform = '';
-            });
-            this.leftSwingEvent.emit(itemElement.id)
-          }
-          else {
-            // Fly the item back into the original position
-            this._domCtrl.write(() => {
-              itemElement.style.transform = '';
-            });
-          }
-        })
-      }, true);
-
-      // Don't forget to enable!
-      swipeGesture.enable(true);
-
-    }
+  tf(s) {
+    s.close();
   }
 
   ngOnDestroy() {
