@@ -10,4 +10,6 @@ export class URLList {
 
 export class LocalStorageKeys {
     static subredditName = 'subredditName';
+    static savedPostsIds = 'savedPostsIds';
+    static deletedPostsIds = 'deletedPostsIds';
 }

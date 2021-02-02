@@ -14,14 +14,19 @@ import { map } from 'rxjs/operators';
 export class RedditProfileService implements OnDestroy {
   private _profile: BehaviorSubject<RedditProfile> = new BehaviorSubject<RedditProfile>(null);
   private _posts: BehaviorSubject<RedditPost[]> = new BehaviorSubject<RedditPost[]>([]);
+  private _savedPostsIds: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
+  private _deletedPostsIds: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
   private _subredditName: string;
   private _subscriptions: Subscription[] = [];
 
   constructor(private http: HttpClient, private _toastController: ToastController) {
-    console.debug('CONSTRUCTOR');
     this._subredditName = localStorage.getItem(LocalStorageKeys.subredditName) || 'random';
-    console.debug(this._subredditName);
+
+    this.getSavedPostsIds();
+    this.getDeletedPostsIds();
+
     this.getSubredditProfile(this._subredditName);
+
     this._subscriptions.push(
       this._profile.subscribe(x => {
         if (x) {
@@ -34,13 +39,15 @@ export class RedditProfileService implements OnDestroy {
 
   profile = this._profile.asObservable();
   posts = this._posts.asObservable();
+  savedPostsIds = this._savedPostsIds.asObservable();
+  deletedPostsIds = this._deletedPostsIds.asObservable();
 
   getSubredditProfile(name: string) {
     this._subscriptions.push(
       this.http.get<any>(URLList.redditProfileAbout.replace('$profile_name', name)).subscribe(res => {
         console.debug('GET PROFILE');
         this._profile.next(
-          new RedditProfile(res.data.name, res.data.display_name, res.data.title, res.data.community_icon));
+          new RedditProfile(res.data.name, res.data.display_name, res.data.title, res.data.icon_img));
       })
     )
   }
@@ -55,6 +62,28 @@ export class RedditProfileService implements OnDestroy {
               x.data.author, x.data.selftext, x.data.num_comments, x.data.created_utc, x.data.score)));
       }))
   };
+
+  getSavedPostsIds() {
+    let items = localStorage.getItem(LocalStorageKeys.savedPostsIds);
+    this._savedPostsIds.next(items ? items.split(',') : []);
+  }
+
+  getDeletedPostsIds() {
+    let items = localStorage.getItem(LocalStorageKeys.deletedPostsIds);
+    this._deletedPostsIds.next(items ? items.split(',') : []);
+  }
+
+  savePost(postId: string) {
+    this.savedPostsIds.subscribe(x =>
+      localStorage.setItem(LocalStorageKeys.savedPostsIds, x.concat(postId).join(','))
+    )
+  }
+
+  deletePost(postId: string) {
+    this.deletedPostsIds.subscribe(x =>
+      localStorage.setItem(LocalStorageKeys.deletedPostsIds, x.concat(postId).join(','))
+    )
+  }
 
   openPostInBrowser(postId: string) {
     window.open(URLList.postUrl.replace('$profile_name', this._subredditName) + postId);
