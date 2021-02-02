@@ -1,7 +1,7 @@
 import { RedditPost } from '../models/RedditPost';
 import {
   AfterViewInit, Component, OnInit, Input, Output, EventEmitter, OnDestroy,
-  ElementRef, QueryList, ViewChildren, OnChanges, AfterViewChecked, ChangeDetectionStrategy, AfterContentInit, DoCheck, AfterContentChecked
+  ElementRef, QueryList, ViewChildren, OnChanges, AfterViewChecked, ChangeDetectionStrategy, AfterContentInit, DoCheck, AfterContentChecked, ChangeDetectorRef, NgZone
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AnimationController, DomController, GestureController } from '@ionic/angular'
@@ -17,10 +17,11 @@ export class RedditPostsListComponent implements OnInit, OnDestroy, DoCheck {
   @ViewChildren('container', { read: ElementRef }) itemContainer: QueryList<ElementRef>;
 
   constructor(private _gestureCtrl: GestureController, private _animationCtrl: AnimationController,
-    private _domCtrl: DomController) { }
+    private _domCtrl: DomController, private cdr: ChangeDetectorRef, private ngZone: NgZone) { }
 
   ngOnInit() {
   }
+
   @Input() posts: RedditPost[];
 
   @Input() savedPostsIds: string[];
@@ -28,12 +29,15 @@ export class RedditPostsListComponent implements OnInit, OnDestroy, DoCheck {
   @Output() rightSwingEvent = new EventEmitter<string>();
 
   @Output() leftSwingEvent = new EventEmitter<string>();
+
   ngDoCheck() {
     // console.debug('ngDoCHeck');
     this.setUpGesture();
   }
 
   setUpGesture() {
+    console.debug('setUpGest');
+    console.debug(this.posts.length);
     if (!this.itemContainer) return;
     const windowWidth = window.innerWidth;
     const containerArray = this.itemContainer.toArray();
@@ -55,17 +59,17 @@ export class RedditPostsListComponent implements OnInit, OnDestroy, DoCheck {
         threshold: 15,
         direction: 'x',
         gestureName: 'swipe-delete',
-        onMove: ev => {
+        onMove: ev => this.ngZone.run(() => {
           const currentX = ev.deltaX;
-
+          console.debug('MOVE');
           this._domCtrl.write(() => {
             // Make sure the item is above the other elements
             itemElement.style.zIndex = 2;
             // Reposition the item
             itemElement.style.transform = `translateX(${currentX}px)`;
           });
-        },
-        onEnd: ev => {
+        }),
+        onEnd: ev => this.ngZone.run(() => {
           console.debug('On End');
           itemElement.style.transition = '0.2s ease-out';
 
@@ -101,11 +105,12 @@ export class RedditPostsListComponent implements OnInit, OnDestroy, DoCheck {
               itemElement.style.transform = '';
             });
           }
-        }
+        })
       }, true);
 
       // Don't forget to enable!
       swipeGesture.enable(true);
+
     }
   }
 

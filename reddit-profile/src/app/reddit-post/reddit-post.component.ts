@@ -1,7 +1,7 @@
+import { RedditProfileService } from './../services/reddit-profile.service';
 import { Subscription } from 'rxjs';
-import { RedditProfileService } from '../services/reddit-profile.service';
 import { RedditPost } from '../models/RedditPost';
-import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 
 @Component({
   selector: 'app-reddit-post',
@@ -9,16 +9,12 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy } from '@a
   styleUrls: ['./reddit-post.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RedditPostComponent implements OnInit, OnDestroy {
+export class RedditPostComponent implements OnDestroy {
   // private _subscriptions: Subscription[] = []
 
-  constructor(private _redditProfileService: RedditProfileService) {
+  constructor(private _redditProfileService: RedditProfileService, private cdr: ChangeDetectorRef) {
     // this._subscriptions.push(this._redditProfileService.savedPostsIds.subscribe(res => this.savedPostsIds = res))
   }
-
-
-
-  ngOnInit() { }
 
   @Input() post: RedditPost;
 

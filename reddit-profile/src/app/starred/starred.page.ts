@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { RedditPost } from '../models/RedditPost';
 import { RedditProfileService } from '../services/reddit-profile.service';
 
@@ -12,16 +12,16 @@ import { RedditProfileService } from '../services/reddit-profile.service';
 export class StarredPage implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
 
-  constructor(private _redditProfileService: RedditProfileService) {
-    this._subscriptions.push(this._redditProfileService.savedPostsIds.subscribe(res => this.savedPostsIds = res));
-    this._subscriptions.push(this._redditProfileService.posts.subscribe(res => this.posts = res))
+  constructor(private _redditProfileService: RedditProfileService, private cdr: ChangeDetectorRef) {
+    this.posts = this._redditProfileService.posts;
+    this.savedPostsIds = this._redditProfileService.savedPostsIds;
   }
 
   ngOnInit() {
   }
 
-  posts: RedditPost[];
-  savedPostsIds: string[];
+  posts: Observable<RedditPost[]>;
+  savedPostsIds: Observable<string[]>;
 
   unSavePost(postId: string) {
     this._redditProfileService.removePostFromSaved(postId);

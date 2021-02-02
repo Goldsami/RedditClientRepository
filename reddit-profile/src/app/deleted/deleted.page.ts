@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core'
-import { Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core'
+import { Subscription, Observable } from 'rxjs';
 import { RedditPost } from '../models/RedditPost';
 import { RedditProfile } from '../models/RedditProfile';
 import { RedditProfileService } from '../services/reddit-profile.service';
@@ -13,16 +13,16 @@ import { RedditProfileService } from '../services/reddit-profile.service';
 export class DeletedPage implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
 
-  constructor(private _redditProfileService: RedditProfileService) {
-    this._subscriptions.push(this._redditProfileService.deletedPostsIds.subscribe(res => this.deletedPostsIds = res));
-    this._subscriptions.push(this._redditProfileService.posts.subscribe(res => { this.posts = res; console.debug(res) }));
+  constructor(private _redditProfileService: RedditProfileService, private cdr: ChangeDetectorRef) {
+    this.posts = this._redditProfileService.posts;
+    this.deletedPostsIds = this._redditProfileService.deletedPostsIds
   }
 
   ngOnInit() {
   }
 
-  posts: RedditPost[];
-  deletedPostsIds: string[];
+  posts: Observable<RedditPost[]>;
+  deletedPostsIds: Observable<string[]>;
 
   restorePost(postId: string) {
     this._redditProfileService.removePostFromDeleted(postId);

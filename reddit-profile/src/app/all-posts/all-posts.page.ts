@@ -1,8 +1,8 @@
 import { RedditPost } from './../models/RedditPost';
 import { RedditProfile } from '../models/RedditProfile';
 import { RedditProfileService } from '../services/reddit-profile.service';
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-all-posts',
@@ -13,11 +13,11 @@ import { Subscription } from 'rxjs';
 export class AllPostsPage implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
 
-  constructor(private _redditProfileService: RedditProfileService) {
-    this._subscriptions.push(this._redditProfileService.savedPostsIds.subscribe(res => this.savedPostsIds = res));
-    this._subscriptions.push(this._redditProfileService.deletedPostsIds.subscribe(res => this.deletedPostsIds = res));
-    this._subscriptions.push(this._redditProfileService.posts.subscribe(res => this.posts = res));
-    this._subscriptions.push(this._redditProfileService.profile.subscribe(res => this.profile = res));
+  constructor(private _redditProfileService: RedditProfileService, private cdr: ChangeDetectorRef) {
+    this.savedPostsIds = this._redditProfileService.savedPostsIds;
+    this.deletedPostsIds = this._redditProfileService.deletedPostsIds;
+    this.posts = this._redditProfileService.posts;
+    this.profile = this._redditProfileService.profile;
 
   }
 
@@ -25,40 +25,32 @@ export class AllPostsPage implements OnInit, OnDestroy {
 
   }
 
-  profile: RedditProfile;
-  posts: RedditPost[];
-  savedPostsIds: string[];
-  deletedPostsIds: string[];
-
-  // profile: Observable<RedditProfile>;
-  // posts: Observable<RedditPost[]>;
-  // savedPostsIds: Observable<string[]>;
-  // deletedPostsIds: Observable<string[]>;
+  profile: Observable<RedditProfile>;
+  posts: Observable<RedditPost[]>;
+  savedPostsIds: Observable<string[]>;
+  deletedPostsIds: Observable<string[]>;
 
   deletePost(postId: string) {
-    console.debug('delete');
-    if (this.savedPostsIds.includes(postId)) {
-      this._redditProfileService.presentToast('Starred post cannot be deleted', 'warning');
-      return;
-    }
-    else this._redditProfileService.deletePost(postId);
-
-    // this.savedPostsIds.subscribe(ids => {
-    //   if (ids.includes(postId)) {
-    //     this._redditProfileService.presentToast('Starred post cannot be deleted', 'warning');
-    //     return;
-    //   }
-    //   else this._redditProfileService.deletePost(postId);
-    // })
+    this._subscriptions.push(
+      this.savedPostsIds.subscribe(ids => {
+        if (ids.includes(postId)) {
+          this._redditProfileService.presentToast('Starred post cannot be deleted', 'warning');
+          return;
+        }
+        else this._redditProfileService.deletePost(postId);
+      }))
 
   }
 
   savePost(postId: string) {
-    if (this.savedPostsIds.includes(postId)) {
-      this._redditProfileService.presentToast('Post is starred already', 'warning');
-      return;
-    }
-    else this._redditProfileService.savePost(postId);
+    this._subscriptions.push(
+      this.savedPostsIds.subscribe(ids => {
+        if (ids.includes(postId)) {
+          this._redditProfileService.presentToast('Post is starred already', 'warning');
+          return;
+        }
+        else this._redditProfileService.savePost(postId);
+      }))
   }
 
   ngOnDestroy() {

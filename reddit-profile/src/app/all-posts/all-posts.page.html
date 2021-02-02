@@ -1,8 +1,8 @@
 <app-page-header [pageName]="'All posts'"></app-page-header>
 
 <ion-content>
-  <app-profile-header [redditProfile]="profile"></app-profile-header>
-  <app-reddit-posts-list [posts]="posts | getNotDeleted: deletedPostsIds" [savedPostsIds]="savedPostsIds"
-    (rightSwingEvent)="deletePost($event)" (leftSwingEvent)="savePost($event)">
+  <app-profile-header [redditProfile]="profile | async"></app-profile-header>
+  <app-reddit-posts-list [posts]="posts | async | getNotDeleted: (deletedPostsIds | async)"
+    [savedPostsIds]="savedPostsIds | async" (rightSwingEvent)="deletePost($event)" (leftSwingEvent)="savePost($event)">
   </app-reddit-posts-list>
 </ion-content>
