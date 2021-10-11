@@ -1,25 +1,24 @@
-import { SwipeParams } from './../models/classes';
-import { RedditPost } from '../models/RedditPost';
 import {
-  AfterViewInit, Component, OnInit, Input, Output, EventEmitter, OnDestroy,
-  ElementRef, QueryList, ViewChildren, OnChanges, AfterViewChecked, ChangeDetectionStrategy, AfterContentInit, DoCheck, AfterContentChecked, ChangeDetectorRef, NgZone
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AnimationController, DomController, GestureController } from '@ionic/angular'
+import { RedditPost } from '../models/RedditPost';
+import { SwipeParams } from './../models/classes';
 
 @Component({
   selector: 'app-reddit-posts-list',
   templateUrl: './reddit-posts-list.component.html',
   styleUrls: ['./reddit-posts-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RedditPostsListComponent implements OnInit, OnDestroy {
-  private _subscriptions: Subscription[] = [];
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+  private subscriptions: Subscription[] = [];
 
   @Input() posts: RedditPost[];
 
@@ -30,6 +29,10 @@ export class RedditPostsListComponent implements OnInit, OnDestroy {
   @Output() rightSwingEvent = new EventEmitter<string>();
 
   @Output() leftSwingEvent = new EventEmitter<string>();
+
+  constructor() {}
+
+  ngOnInit() {}
 
   onSwipe(event, post: RedditPost, slidingItem) {
     switch (event.detail.side) {
@@ -44,20 +47,15 @@ export class RedditPostsListComponent implements OnInit, OnDestroy {
 
   swipeLeft(post: RedditPost, slidingItem) {
     slidingItem.close();
-    this.leftSwingEvent.emit(post.id)
+    this.leftSwingEvent.emit(post.id);
   }
 
   swipeRight(post: RedditPost, slidingItem) {
     slidingItem.close();
-    this.rightSwingEvent.emit(post.id)
-  }
-
-  tf(s) {
-    s.close();
+    this.rightSwingEvent.emit(post.id);
   }
 
   ngOnDestroy() {
-    this._subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
-
 }

@@ -1,14 +1,27 @@
-<ion-card (click)="open(post.id)" [ngClass]="{'starred-card':savedPostsIds && savedPostsIds.includes(post.id)}">
+<ion-card
+  (click)="open(post.id)"
+  [ngClass]="{
+    'starred-card': savedPostsIds && savedPostsIds.includes(post.id)
+  }"
+>
   <ion-card-header>
-    <span>Posted by {{post.author}} at {{post.creationDateTime}}</span>
-    <ion-card-title>{{post.title}}</ion-card-title>
+    <span>Posted by {{ post.author }} at {{ post.creationDateTime }}</span>
+    <ion-card-title>{{ post.title }}</ion-card-title>
   </ion-card-header>
 
   <ion-card-content>
-    <img *ngIf="post.imageUrl" [src]="post.imageUrl" alt="Image cannot be loaded" onerror="this.style.display='none'">
+    <img
+      *ngIf="post.imageUrl"
+      [src]="post.imageUrl"
+      alt="Image cannot be loaded"
+      onerror="this.style.display='none'"
+    />
     <div class="footer-icons">
-      <ion-icon name="chatbox-outline"></ion-icon><span>{{post.num_comments}}</span>&nbsp;
-      <ion-icon name="heart-outline"></ion-icon><span>{{post.score}}</span>
+      <ion-icon name="chatbox-outline"> </ion-icon>
+      <span>{{ post.num_comments }}</span
+      >&nbsp;
+      <ion-icon name="heart-outline"></ion-icon>
+      <span>{{ post.score }}</span>
     </div>
   </ion-card-content>
 </ion-card>

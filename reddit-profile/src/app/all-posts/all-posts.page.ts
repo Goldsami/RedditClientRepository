@@ -2,8 +2,9 @@ import { SwipeParams } from './../models/classes';
 import { RedditPost } from './../models/RedditPost';
 import { RedditProfile } from '../models/RedditProfile';
 import { RedditProfileService } from '../services/reddit-profile.service';
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-all-posts',
@@ -12,19 +13,7 @@ import { Observable, Subscription } from 'rxjs';
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AllPostsPage implements OnInit, OnDestroy {
-  private _subscriptions: Subscription[] = [];
-
-  constructor(private _redditProfileService: RedditProfileService, private cdr: ChangeDetectorRef) {
-    this.savedPostsIds = this._redditProfileService.savedPostsIds;
-    this.deletedPostsIds = this._redditProfileService.deletedPostsIds;
-    this.posts = this._redditProfileService.posts;
-    this.profile = this._redditProfileService.profile;
-
-  }
-
-  ngOnInit() {
-
-  }
+  private subscriptions: Subscription[] = [];
 
   profile: Observable<RedditProfile>;
   posts: Observable<RedditPost[]>;
@@ -33,31 +22,51 @@ export class AllPostsPage implements OnInit, OnDestroy {
 
   swipeParams: SwipeParams = new SwipeParams(true, true, 'star', 'trash');
 
-  deletePost(postId: string) {
-    this._subscriptions.push(
-      this.savedPostsIds.subscribe(ids => {
-        if (ids.includes(postId)) {
-          this._redditProfileService.presentToast('Starred post cannot be deleted', 'warning');
-          return;
-        }
-        else this._redditProfileService.deletePost(postId);
-      }))
+  constructor(
+    private redditProfileService: RedditProfileService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
+  ngOnInit() {
+    this.savedPostsIds = this.redditProfileService.savedPostsIds;
+    this.deletedPostsIds = this.redditProfileService.deletedPostsIds;
+    this.posts = this.redditProfileService.posts;
+    this.profile = this.redditProfileService.profile;
+  }
+
+  deletePost(postId: string) {
+    this.subscriptions.push(
+      this.savedPostsIds.subscribe((ids) => {
+        if (ids.includes(postId)) {
+          this.redditProfileService.presentToast(
+            'Starred post cannot be deleted',
+            'warning'
+          );
+          return;
+        } else {
+          this.redditProfileService.deletePost(postId);
+        }
+      })
+    );
   }
 
   savePost(postId: string) {
-    this._subscriptions.push(
-      this.savedPostsIds.subscribe(ids => {
+    this.subscriptions.push(
+      this.savedPostsIds.pipe(take(1)).subscribe((ids) => {
         if (ids.includes(postId)) {
-          this._redditProfileService.presentToast('Post is starred already', 'warning');
+          this.redditProfileService.presentToast(
+            'Post is starred already',
+            'warning'
+          );
           return;
+        } else {
+          this.redditProfileService.savePost(postId);
         }
-        else this._redditProfileService.savePost(postId);
-      }))
+      })
+    );
   }
 
   ngOnDestroy() {
-    this._subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
-
 }

@@ -5,26 +5,29 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'all',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'all',
-    loadChildren: () => import('./all-posts/all-posts.module').then(m => m.AllPostsPageModule)
+    loadChildren: () =>
+      import('./all-posts/all-posts.module').then((m) => m.AllPostsPageModule),
   },
   {
     path: 'starred',
-    loadChildren: () => import('./starred/starred.module').then(m => m.StarredPageModule)
+    loadChildren: () =>
+      import('./starred/starred.module').then((m) => m.StarredPageModule),
   },
   {
     path: 'deleted',
-    loadChildren: () => import('./deleted/deleted.module').then(m => m.DeletedPageModule)
+    loadChildren: () =>
+      import('./deleted/deleted.module').then((m) => m.DeletedPageModule),
   },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

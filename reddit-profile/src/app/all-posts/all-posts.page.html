@@ -1,9 +1,13 @@
-<app-page-header [pageName]="'All posts'"></app-page-header>
+<app-page-header pageName="All posts" [showRefresh]="true"></app-page-header>
 
 <ion-content>
   <app-profile-header [redditProfile]="profile | async"></app-profile-header>
-  <app-reddit-posts-list [posts]="posts | async | getNotDeleted: (deletedPostsIds | async)"
-    [savedPostsIds]="savedPostsIds | async" [swipeParams]="swipeParams" (rightSwingEvent)="deletePost($event)"
-    (leftSwingEvent)="savePost($event)">
+  <app-reddit-posts-list
+    [posts]="posts | async | getNotDeleted: (deletedPostsIds | async)"
+    [savedPostsIds]="savedPostsIds | async"
+    [swipeParams]="swipeParams"
+    (rightSwingEvent)="deletePost($event)"
+    (leftSwingEvent)="savePost($event)"
+  >
   </app-reddit-posts-list>
 </ion-content>

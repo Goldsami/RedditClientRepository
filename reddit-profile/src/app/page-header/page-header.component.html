@@ -3,7 +3,14 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{pageName}}</ion-title>
-    <ion-icon name="refresh-outline" (click)="refresh()"></ion-icon>
+    <div style="display: flex">
+      <ion-title style="flex: 1">{{ pageName }}</ion-title>
+      <ion-icon
+        *ngIf="showRefresh"
+        name="refresh-outline"
+        style="padding: 1rem"
+        (click)="refresh()"
+      ></ion-icon>
+    </div>
   </ion-toolbar>
 </ion-header>

@@ -14,19 +14,14 @@ import { RedditPostsListComponent } from '../reddit-posts-list/reddit-posts-list
 import { PageHeaderComponent } from '../page-header/page-header.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    DeletedPageRoutingModule
-  ],
+  imports: [CommonModule, FormsModule, IonicModule, DeletedPageRoutingModule],
   declarations: [
     DeletedPage,
     ProfileHeaderComponent,
     RedditPostComponent,
     RedditPostsListComponent,
     PageHeaderComponent,
-    GetDeletedPipe
-  ]
+    GetDeletedPipe,
+  ],
 })
-export class DeletedPageModule { }
+export class DeletedPageModule {}

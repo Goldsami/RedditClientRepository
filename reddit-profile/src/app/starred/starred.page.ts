@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { SwipeParams } from '../models/classes';
 import { RedditPost } from '../models/RedditPost';
@@ -8,30 +14,30 @@ import { RedditProfileService } from '../services/reddit-profile.service';
   selector: 'app-starred',
   templateUrl: './starred.page.html',
   styleUrls: ['./starred.page.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StarredPage implements OnInit, OnDestroy {
-  private _subscriptions: Subscription[] = [];
-
-  constructor(private _redditProfileService: RedditProfileService, private cdr: ChangeDetectorRef) {
-    this.posts = this._redditProfileService.posts;
-    this.savedPostsIds = this._redditProfileService.savedPostsIds;
-  }
-
-  ngOnInit() {
-  }
-
+  private subscriptions: Subscription[] = [];
   posts: Observable<RedditPost[]>;
   savedPostsIds: Observable<string[]>;
 
   swipeParams: SwipeParams = new SwipeParams(true, false, 'star-outline', '');
 
+  constructor(
+    private redditProfileService: RedditProfileService,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.posts = this.redditProfileService.posts;
+    this.savedPostsIds = this.redditProfileService.savedPostsIds;
+  }
+
+  ngOnInit() {}
+
   unSavePost(postId: string) {
-    this._redditProfileService.removePostFromSaved(postId);
+    this.redditProfileService.removePostFromSaved(postId);
   }
 
   ngOnDestroy() {
-    this._subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
-
 }

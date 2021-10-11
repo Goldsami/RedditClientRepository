@@ -9,104 +9,158 @@ import { LocalStorageKeys, URLList } from './constants';
 import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RedditProfileService implements OnDestroy {
-  private _profile: BehaviorSubject<RedditProfile> = new BehaviorSubject<RedditProfile>(null);
-  private _posts: BehaviorSubject<RedditPost[]> = new BehaviorSubject<RedditPost[]>([]);
-  private _savedPostsIds: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
-  private _deletedPostsIds: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
-  private _subredditName: string;
-  private _subscriptions: Subscription[] = [];
+  private profileSubject: BehaviorSubject<RedditProfile> =
+    new BehaviorSubject<RedditProfile>(null);
+  private postsSubject: BehaviorSubject<RedditPost[]> = new BehaviorSubject<
+    RedditPost[]
+  >([]);
+  private savedPostsIdsSubject: BehaviorSubject<string[]> = new BehaviorSubject<
+    string[]
+  >([]);
+  private deletedPostsIdsSubject: BehaviorSubject<string[]> =
+    new BehaviorSubject<string[]>([]);
+  private subredditNameSubject: string;
+  private subscriptionsSubject: Subscription[] = [];
 
-  constructor(private http: HttpClient, private _toastController: ToastController) {
-    this._subredditName = localStorage.getItem(LocalStorageKeys.subredditName) || 'random';
+  constructor(
+    private http: HttpClient,
+    private toastController: ToastController
+  ) {
+    this.subredditNameSubject =
+      localStorage.getItem(LocalStorageKeys.SUBREDDIT_NAME) || 'random';
 
     this.getSavedPostsIds();
     this.getDeletedPostsIds();
 
-    this.getSubredditProfile(this._subredditName);
+    this.getSubredditProfile(this.subredditNameSubject);
 
-    this._subscriptions.push(
-      this._profile.subscribe(x => {
+    this.subscriptionsSubject.push(
+      this.profileSubject.subscribe((x) => {
         if (x) {
-          this._subredditName = x.displayName;
-          localStorage.setItem(LocalStorageKeys.subredditName, this._subredditName);
-          this.getSubredditPosts(this._subredditName);
-        };
-      }));
+          this.subredditNameSubject = x.displayName;
+          localStorage.setItem(
+            LocalStorageKeys.SUBREDDIT_NAME,
+            this.subredditNameSubject
+          );
+          this.getSubredditPosts(this.subredditNameSubject);
+        }
+      })
+    );
   }
 
-  profile = this._profile.asObservable();
-  posts = this._posts.asObservable();
-  savedPostsIds = this._savedPostsIds.asObservable();
-  deletedPostsIds = this._deletedPostsIds.asObservable();
+  profile = this.profileSubject.asObservable();
+  posts = this.postsSubject.asObservable();
+  savedPostsIds = this.savedPostsIdsSubject.asObservable();
+  deletedPostsIds = this.deletedPostsIdsSubject.asObservable();
 
   getSubredditProfile(name: string) {
-    this._subscriptions.push(
-      this.http.get<any>(URLList.redditProfileAbout.replace('$profile_name', name)).subscribe(res => {
-        console.debug('GET PROFILE');
-        this._profile.next(
-          new RedditProfile(res.data.name, res.data.display_name, res.data.title, res.data.icon_img));
-      })
-    )
+    this.subscriptionsSubject.push(
+      this.http
+        .get<any>(URLList.REDDIT_PROFILE_ABOUT.replace('$profile_name', name))
+        .subscribe((res) => {
+          this.profileSubject.next(
+            new RedditProfile(
+              res.data.name,
+              res.data.display_name,
+              res.data.title,
+              res.data.icon_img
+            )
+          );
+        })
+    );
   }
 
   getSubredditPosts(name: string) {
-    this._subscriptions.push(
-      this.http.get<any>(URLList.redditProfilePosts.replace('$profile_name', name)).subscribe(res => {
-        console.debug('GET POSTS');
-        this._posts.next(
-          res.data.children.map(x =>
-            new RedditPost(x.data.id, x.data.title, x.data.url, x.data.subreddit_id,
-              x.data.author, x.data.selftext, x.data.num_comments, x.data.created_utc, x.data.score)));
-      }))
-  };
+    this.subscriptionsSubject.push(
+      this.http
+        .get<any>(URLList.PREDIT_PROFILE_POSTS.replace('$profile_name', name))
+        .subscribe((res) => {
+          this.postsSubject.next(
+            res.data.children.map(
+              (x) =>
+                new RedditPost(
+                  x.data.id,
+                  x.data.title,
+                  x.data.url,
+                  x.data.subreddit_id,
+                  x.data.author,
+                  x.data.selftext,
+                  x.data.num_comments,
+                  x.data.created_utc,
+                  x.data.score
+                )
+            )
+          );
+        })
+    );
+  }
 
   getSavedPostsIds() {
-    let items = localStorage.getItem(LocalStorageKeys.savedPostsIds);
-    this._savedPostsIds.next(items ? items.split(',') : []);
+    const items = localStorage.getItem(LocalStorageKeys.SAVED_POSTS_IDS);
+    this.savedPostsIdsSubject.next(items ? items.split(',') : []);
   }
 
   getDeletedPostsIds() {
-    let items = localStorage.getItem(LocalStorageKeys.deletedPostsIds);
-    this._deletedPostsIds.next(items ? items.split(',') : []);
+    const items = localStorage.getItem(LocalStorageKeys.DELETED_POSTS_IDS);
+    this.deletedPostsIdsSubject.next(items ? items.split(',') : []);
   }
 
   savePost(postId: string) {
-    console.debug('savePost');
-    this._subscriptions.push(this.savedPostsIds.subscribe(x =>
-      localStorage.setItem(LocalStorageKeys.savedPostsIds, x.concat(postId).join(','))
-    ));
+    this.subscriptionsSubject.push(
+      this.savedPostsIds.subscribe((x) =>
+        localStorage.setItem(
+          LocalStorageKeys.SAVED_POSTS_IDS,
+          x.concat(postId).join(',')
+        )
+      )
+    );
     this.getSavedPostsIds();
   }
 
   deletePost(postId: string) {
-    console.debug('deletePost');
-    this._subscriptions.push(this.deletedPostsIds.subscribe(x =>
-      localStorage.setItem(LocalStorageKeys.deletedPostsIds, x.concat(postId).join(','))
-    ));
+    this.subscriptionsSubject.push(
+      this.deletedPostsIds.subscribe((x) =>
+        localStorage.setItem(
+          LocalStorageKeys.DELETED_POSTS_IDS,
+          x.concat(postId).join(',')
+        )
+      )
+    );
     this.getDeletedPostsIds();
   }
 
   removePostFromSaved(postId: string) {
-    console.debug('unSavePost');
-    this._subscriptions.push(this.savedPostsIds.subscribe(x => {
-      localStorage.setItem(LocalStorageKeys.savedPostsIds, x.filter(i => i !== postId).join(','));
-    }));
+    this.subscriptionsSubject.push(
+      this.savedPostsIds.subscribe((x) => {
+        localStorage.setItem(
+          LocalStorageKeys.SAVED_POSTS_IDS,
+          x.filter((i) => i !== postId).join(',')
+        );
+      })
+    );
     this.getSavedPostsIds();
   }
 
   removePostFromDeleted(postId: string) {
-    console.debug('restorePost');
-    this._subscriptions.push(this.deletedPostsIds.subscribe(x => {
-      localStorage.setItem(LocalStorageKeys.deletedPostsIds, x.filter(i => i !== postId).join(','));
-    }));
+    this.subscriptionsSubject.push(
+      this.deletedPostsIds.subscribe((x) => {
+        localStorage.setItem(
+          LocalStorageKeys.DELETED_POSTS_IDS,
+          x.filter((i) => i !== postId).join(',')
+        );
+      })
+    );
     this.getDeletedPostsIds();
   }
 
   openPostInBrowser(postId: string) {
-    window.open(URLList.postUrl.replace('$profile_name', this._subredditName) + postId);
+    window.open(
+      URLList.POST_URL.replace('$profile_name', this.subredditNameSubject) +
+        postId
+    );
   }
 
   refreshPage() {
@@ -116,19 +170,15 @@ export class RedditProfileService implements OnDestroy {
   }
 
   async presentToast(message: string, color: string) {
-    const toast = await this._toastController.create({
-      message: message,
+    const toast = await this.toastController.create({
+      message,
       duration: 1000,
-      color: color
+      color,
     });
     toast.present();
   }
 
   ngOnDestroy() {
-    this._subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptionsSubject.forEach((s) => s.unsubscribe());
   }
-
 }
-
-
-

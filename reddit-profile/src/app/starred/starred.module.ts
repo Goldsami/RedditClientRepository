@@ -15,19 +15,14 @@ import { ProfileHeaderComponent } from '../profile-header/profile-header.compone
 import { PageHeaderComponent } from '../page-header/page-header.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    StarredPageRoutingModule
-  ],
+  imports: [CommonModule, FormsModule, IonicModule, StarredPageRoutingModule],
   declarations: [
     StarredPage,
     ProfileHeaderComponent,
     RedditPostComponent,
     RedditPostsListComponent,
     PageHeaderComponent,
-    GetStarredPipe
-  ]
+    GetStarredPipe,
+  ],
 })
-export class StarredPageModule { }
+export class StarredPageModule {}
