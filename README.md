@@ -11,5 +11,5 @@ You can find how to run CORS server locally [here](https://github.com/Rob--W/cor
 To run the application use next command:
 
 ```bash
-npm run start
+cd reddit-profile && npm run start
 ```
