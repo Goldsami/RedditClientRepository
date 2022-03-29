@@ -2,6 +2,10 @@
 
 Angular Ionic app for viewing reddit posts
 
+## Teck stack:
+
+Angular, Ionic
+
 ## Runnitg the application
 
 First you need to add your CORS proxy server url to `CORSE_ANYWHERE` variable on `reddit-profile/src/app/services/constants.ts`
